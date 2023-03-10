@@ -1,16 +1,20 @@
+//imports
 const express = require("express")
 const app = express()
-
-const showRouter = require("./routes/Show")
-const userRouter = require("./routes/User")
-const { check, validationResult } = require("express-validator")
 const port = 3000
 
+//import routes
+const showRoutes = require("./server/routes/showRoutes").router
+const userRoutes = require("./server/routes/userRoutes").router
+
+// // middleware
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 
 // Express Routes
-app.use("/shows", showRouter)
-app.use("/users", userRouter)
+app.use("/shows", showRoutes)
+app.use("/users", userRoutes)
 
-app.listen(port, () => console.log(`App listening on port ${port}!`))
+//define where your express server will be listening to
+app.listen(port, () => {
+    console.log(`Server is listening at http://localhost:${port}`)
+})
