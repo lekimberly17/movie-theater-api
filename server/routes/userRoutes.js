@@ -3,6 +3,7 @@ const router = express.Router()
 const { User } = require('../models/index')
 const { Show } = require('../models/index')
 
+
 // GET one user
 router.get("/:id", async (req, res) => {
     try {
@@ -24,6 +25,7 @@ router.get('/', async (req, res) => {
       res.status(500).send('Cannot get users')
     }
 })
+
 
 // GET all shows watched by a user (user id in req.params)
 router.get('/:id/shows', async (req, res) => {
@@ -48,12 +50,14 @@ router.put('/:id/shows/:showId', async (req, res) => {
     const user = await User.findByPk(req.params.id)
     const show = await Show.findByPk(req.params.showId)
     await user.addShow(show)
-    res.status(200).json(user)
+    res.status(200).json(await user.getShows())
   } catch (error) {
     console.error(error)
     res.status(500).send('Cannot update shows')
   }
 })
+
+
 
 module.exports = {
     router
